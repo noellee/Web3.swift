@@ -41,6 +41,9 @@ public struct Web3 {
     /// The struct holding all `eth` requests
     public let eth: Eth
 
+    /// The struct holding all `debug` requests
+    public let debug: Debug
+
     // MARK: - Initialization
 
     /**
@@ -54,6 +57,7 @@ public struct Web3 {
         self.properties = properties
         self.net = Net(properties: properties)
         self.eth = Eth(properties: properties)
+        self.debug = Debug(properties: properties)
     }
 
     // MARK: - Web3 methods
@@ -456,5 +460,27 @@ public struct Web3 {
 
             properties.provider.send(request: req, response: response)
         }
+    }
+
+    // MARK: - Debug methods
+
+    public struct Debug {
+
+        public let properties: Properties
+
+        public func traceTransaction(
+            transactionHash: EthereumData,
+            response: @escaping Web3ResponseCompletion<EthereumTransactionTraceObject?>
+        ) {
+            let req = BasicRPCRequest(
+                id: properties.rpcId,
+                jsonrpc: Web3.jsonrpc,
+                method: "debug_traceTransaction",
+                params: [transactionHash, EthereumValue("")]
+            )
+
+            properties.provider.send(request: req, response: response)
+        }
+
     }
 }

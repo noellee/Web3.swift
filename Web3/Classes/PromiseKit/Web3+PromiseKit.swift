@@ -280,6 +280,17 @@ public extension Web3.Eth {
     }
 }
 
+public extension Web3.Debug {
+
+  func traceTransaction(transactionHash: EthereumData) -> Promise<EthereumTransactionTraceObject?> {
+      return Promise { seal in
+          self.traceTransaction(transactionHash: transactionHash) { response in
+              response.sealPromise(seal: seal)
+          }
+      }
+  }
+}
+
 fileprivate extension Web3Response {
 
     func sealPromise(seal: Resolver<Result>) {
