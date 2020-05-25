@@ -22,4 +22,6 @@ public struct EthereumStructLogEntry: Codable {
     public let memory: [EthereumValue]?
 
     public let stack: [EthereumValue]?
+
+    public let storage: [String:EthereumValue]?
 }
